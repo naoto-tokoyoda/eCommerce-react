@@ -1,26 +1,41 @@
 import React from 'react'
 import "./CheckoutProduct.css";
+import { useStateValue } from '../StateProvider';
 
+const CheckoutProduct = ({ id, image, title, price, rating }) => {
 
-const CheckoutProduct = () => {
+    const [{cart}, dispatch] = useStateValue();
+    const removeFromCart = () => {
+        dispatch({
+            type: "REMOVE_FROM_CART",
+            id:id,
+        })
+    }
+
   return (
     <div className="checkoutProduct">
-        <img src="https://images-na.ssl-images-amazon.com/images/I/71mEsHyzSCL._SL1000_.jpg" 
+        <img src={image} 
             alt="" 
             className="checkoutProduct__image" 
         />
         <div className="checkoutProduct__info">
             <p className="checkoutProduct__title">
-             Bennett Mystic 15.6 inch Laptop Shoulder Messenger Sling Office Bag, Water Repellent Fabric for Men and Women (Blue)
+             {title}
             </p>
             <p className="checkoutProduct__price">
                 <small>$</small>
-                <strong>20</strong>
+                <strong>{price}</strong>
             </p>
-            <div className="ceckoutProduct__rating">
-                ⭐⭐
+            <div className="checkoutProduct__rating">
+                {
+                    Array(rating)
+                    .fill()
+                    .map((_,index) => (
+                      <p key={index}>⭐</p>
+                    ))
+                }
             </div>
-            <button>Remove</button>
+            <button onClick={removeFromCart} >Remove</button>
         </div>
     </div>
   )
